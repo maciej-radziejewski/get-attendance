@@ -40,7 +40,7 @@ In either case the file should be saved in your Downloads directory with a name 
 
 You may have multiple such files in your Downloads directory.
 
-### 2. Download the script 'attendance.py' and edit the settings in the script file.
+### 2. Download the script 'attendance.py' and edit the settings in the script file (one time).
 
 You should only have to do this once. 
 1. Create an **empty directory where you are going to store attendance data**. 
@@ -63,7 +63,7 @@ The defaults work in Polish.
 
 6. You also need to specify in which columns this data can be found. Note that column numbers are 0-based, so 0 stands for the first column, 1 for the second, etc. The defaults should work, unless Teams changes its behaviour.
 
-### 3. Create a schedule file.
+### 3. Create the schedule file (one time).
 
 This is also a one-time step. The schedule file is a simple text file with comma-separated values that contain information on your weekly schedule. Something like:
 
