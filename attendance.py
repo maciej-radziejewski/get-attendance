@@ -1,5 +1,8 @@
 #!/usr/bin/python3 
 
+# This file is available from GitHub at:
+# https://github.com/maciej-radziejewski/get-attendance
+
 import os, sys, subprocess
 import csv
 import datetime
