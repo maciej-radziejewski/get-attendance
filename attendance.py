@@ -76,6 +76,9 @@ def get_schedule (fname):
 				for i in range(len(row)):
 					row[i]=row[i].strip()
 				schedule.append([row[0], datetime.strptime(row[1], '%H:%M').time(), row[2]])
+				if row[2] == 'schedule':
+					print('No class/group can be named "schedule".')
+					exit()
 	except Exception:
 		print ('I was not able to read the schedule.')
 		return []
