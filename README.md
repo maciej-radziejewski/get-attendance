@@ -34,7 +34,7 @@ because the class is on Wednesdays and Fridays, but it did not take place on Mar
     Adam Smith,1,1,1,1
     Jane Unnamed,1,1,1,1
 
-There is also a simplification taking place here: every student present at the meeting counts as present, whether they were present for 1 minute with a muted microphone, or 90 minutes with camera on. The reports/lists from Teams contain more information, i.e. who joined when, but the will not tell you had their microphone or camera on.
+There is also a simplification taking place here: every student present at the meeting counts as present, whether they were present for 1 minute with a muted microphone, or for 90 minutes with the camera on. The reports/lists from Teams contain more information, i.e. who joined when, but the will not tell you had their microphone or camera on.
 
 ## Installation and requirements
 
