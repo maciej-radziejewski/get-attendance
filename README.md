@@ -105,7 +105,7 @@ The other settings near those are 0-based columne numbers where the data can be 
 
 4. Create the schedule file.
 
-If the test run was not succesful, re-run the script until it finishes without errors. It should create a provisional schedule file for you, named **schedule.csv** (always in the same directory as the script). You should edit it with a text editor. It may look like this:
+If the test run was not succesful, re-run the script until it finishes without errors. It should create a provisional schedule file for you, named **schedule.csv** (always in the current directory, whicj should be the same directory as the script). You should edit it with a text editor. It may look like this:
 
     Wednesday, 9:00, class1
     Wednesday, 11:00, class2
@@ -136,11 +136,16 @@ Note that:
 * the times in the provisional file are reasonable defaults, but you may need to correct them.
 * weekday names should be in the system default language, see below,
 
-**Proceed to the next step when the schedule is set up!**
+5. Run the script again.
 
-## Normal use
+It should process all the lists/reports that it can find in the Downloads directory, see the next section.
 
-Once the setup is complete, you can just run the script whenever you download new attendance lists/reports. With the **schedule.csv** in the current directory the script should process all the lists/reports that it can find in the Downloads directory. It will tell you which ones. Watch for any error reports. Attendance records in these files will be merged with those already on the sheets.
+## Everyday use
+
+Once the setup is complete, you can just run the script whenever you download new attendance lists/reports. With the **schedule.csv** in the current directory the script should process all the lists/reports that it can find in the Downloads directory. It will tell you which ones. Watch out for any error reports. Attendance records in these files will be merged with those already on the sheets.
 
 Each meeting should be matched to the closest entry in the schedule, on the basis of the meeting start time. The maximum allowed distance is the greater of: 30 minutes, and the actual meeting length. Unmatched meetings are reported. You may need to modify the schedule in such a case (e.g., add a new possible meeting time for some group).
 
+## When the semester is over
+
+When the term is over and new one starts, you can create a new, empty directory for your new attendance sheets, and move the script file with your settings. You will have to re-do the steps 1, 4 and 5 to get the new schedule.
