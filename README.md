@@ -142,7 +142,9 @@ It should process all the lists/reports that it can find in the Downloads direct
 
 ## Everyday use
 
-Once the setup is complete, you can just run the script whenever you download new attendance lists/reports. With the **schedule.csv** in the current directory the script should process all the lists/reports that it can find in the Downloads directory. It will tell you which ones. Watch out for any error reports. Attendance records in these files will be merged with those already on the sheets.
+Once the setup is complete, you can just run the script whenever you download new attendance lists/reports.
+
+With the **schedule.csv** in the current directory the script should process all the lists/reports that it can find in the Downloads directory. It will tell you which ones. Watch out for any error reports. Attendance records in these files will be merged with those already on the sheets.
 
 Each meeting should be matched to the closest entry in the schedule, on the basis of the meeting start time. The maximum allowed distance is the greater of: 30 minutes, and the actual meeting length. Unmatched meetings are reported. You may need to modify the schedule in such a case (e.g., add a new possible meeting time for some group).
 
