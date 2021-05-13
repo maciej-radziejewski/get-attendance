@@ -56,7 +56,7 @@ or
 
     python3 attendance.py
 
-whichever works for you. You should always run the script like this (in the current directory) any file it generates will also go to the same direcory.
+whichever works for you. You should always run the script like this: in the current directory. Any file it generates will also go to the same direcory.
 
 You probably got some error message, but we will deal with that in a moment. If the test-run of the script **created some files** in its directory, please delete them for now.
 
