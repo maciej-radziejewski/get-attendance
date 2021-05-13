@@ -48,7 +48,7 @@ or
 
 from the Terminal (i.e. command line or command prompt). Make a note of how you invoke Python (i.e. with python3 or python).
 
-Once you have Python, download the script 'attendance.py' from here and place it in a **new, empty directory**, where you are going to store attendance data. Try running it by opening the Terminal, going to the script directory and entering the command:
+Once you have Python, download the script 'attendance.py' from here and place it in a **new, empty directory**, where you are going to store attendance data. Try running it by opening the Terminal, **going to the script directory** and entering the command:
 
     python attendance.py
 
