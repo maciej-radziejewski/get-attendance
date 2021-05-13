@@ -150,4 +150,4 @@ Each meeting should be matched to the closest entry in the schedule, on the basi
 
 ## When the semester is over
 
-When the term is over and new one starts, you can create a new, empty directory for your new attendance sheets, and move the script file with your settings. You will have to re-do the steps 1, 4 and 5 to get the new schedule.
+When the term is over and the new one starts, you can create a new, empty directory for your new attendance sheets, and move the script file with your settings. You will have to re-do the steps 1, 4 and 5 to get the new schedule.
