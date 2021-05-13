@@ -132,25 +132,25 @@ def get_attendance_list (source):
 	times = set()
 	organizer_count = 0
 	awaiting_headers = True
-	with open(source, newline='', encoding='utf-16') as csvfile:
-		reader = csv.reader(csvfile, dialect='excel-tab')
-		for row in reader:
-			if awaiting_headers:
-				awaiting_headers = False
-				if row[column_number_full_name_in_lists] != column_header_full_name:
-					raise UserError ('Column header ' + column_header_full_name + ' expected and ' + row[column_number_full_name_in_lists] + ' encountered.')
-				if row[column_number_time_mark_in_lists] != column_header_time_mark:
-					raise UserError ('Column header ' + column_header_time_mark + ' expected and ' + row[column_number_time_mark_in_lists] + ' encountered.')
-			else:
-				name = row[column_number_full_name_in_lists]
-				if organizer_count == 0:
-					organizer = name
-				times.add(datetime.strptime(row[column_number_time_mark_in_lists], time_format))
-				if name == organizer:
-					organizer_count += 1
-				else:
-					participants.add(name)
 	try:
+		with open(source, newline='', encoding='utf-16') as csvfile:
+			reader = csv.reader(csvfile, dialect='excel-tab')
+			for row in reader:
+				if awaiting_headers:
+					awaiting_headers = False
+					if row[column_number_full_name_in_lists] != column_header_full_name:
+						raise UserError ('Column header ' + column_header_full_name + ' expected and ' + row[column_number_full_name_in_lists] + ' encountered.')
+					if row[column_number_time_mark_in_lists] != column_header_time_mark:
+						raise UserError ('Column header ' + column_header_time_mark + ' expected and ' + row[column_number_time_mark_in_lists] + ' encountered.')
+				else:
+					name = row[column_number_full_name_in_lists]
+					if organizer_count == 0:
+						organizer = name
+					times.add(datetime.strptime(row[column_number_time_mark_in_lists], time_format))
+					if name == organizer:
+						organizer_count += 1
+					else:
+						participants.add(name)
 		if organizer_count%2 != 1:
 			raise UserError ('The meeting organizer should be the first participant listed in the file and should appear an odd number of times.')
 		if len(participants) == 0:
@@ -176,30 +176,30 @@ def get_attendance_report (source):
 	times = set()
 	organizer_count = 0
 	awaiting_headers = True
-	with open(source, newline='', encoding='utf-16') as csvfile:
-		reader = csv.reader(csvfile, dialect='excel-tab')
-		for row in reader:
-			if len(row) == number_of_columns_in_reports:
-				if awaiting_headers:
-					awaiting_headers = False
-					if row[column_number_full_name_in_reports] != column_header_full_name:
-						raise UserError ('Column header ' + column_header_full_name + ' expected and ' + row[column_number_full_name_in_reports] + ' encountered.')
-					if row[column_number_join_time_in_reports] != column_header_join_time:
-						raise UserError ('Column header ' + column_header_join_time + ' expected and ' + row[column_number_join_time_in_reports] + ' encountered.')
-					if row[column_number_leave_time_in_reports] != column_header_leave_time:
-						raise UserError ('Column header ' + column_header_leave_time + ' expected and ' + row[column_number_leave_time_in_reports] + ' encountered.')
-					if row[column_number_role_in_reports] != column_header_role:
-						raise UserError ('Column header ' + column_header_role + ' expected and ' + row[column_number_role_in_reports] + ' encountered.')
-				else:
-					if organizer_count == 0:
-						organizer_role = row[column_number_role_in_reports]
-						organizer_count += 1
-					name = row[column_number_full_name_in_reports]
-					times.add(datetime.strptime(row[column_number_join_time_in_reports], time_format))
-					times.add(datetime.strptime(row[column_number_leave_time_in_reports], time_format))
-					if row[column_number_role_in_reports] != organizer_role:
-						participants.add(name)
 	try:
+		with open(source, newline='', encoding='utf-16') as csvfile:
+			reader = csv.reader(csvfile, dialect='excel-tab')
+			for row in reader:
+				if len(row) == number_of_columns_in_reports:
+					if awaiting_headers:
+						awaiting_headers = False
+						if row[column_number_full_name_in_reports] != column_header_full_name:
+							raise UserError ('Column header ' + column_header_full_name + ' expected and ' + row[column_number_full_name_in_reports] + ' encountered.')
+						if row[column_number_join_time_in_reports] != column_header_join_time:
+							raise UserError ('Column header ' + column_header_join_time + ' expected and ' + row[column_number_join_time_in_reports] + ' encountered.')
+						if row[column_number_leave_time_in_reports] != column_header_leave_time:
+							raise UserError ('Column header ' + column_header_leave_time + ' expected and ' + row[column_number_leave_time_in_reports] + ' encountered.')
+						if row[column_number_role_in_reports] != column_header_role:
+							raise UserError ('Column header ' + column_header_role + ' expected and ' + row[column_number_role_in_reports] + ' encountered.')
+					else:
+						if organizer_count == 0:
+							organizer_role = row[column_number_role_in_reports]
+							organizer_count += 1
+						name = row[column_number_full_name_in_reports]
+						times.add(datetime.strptime(row[column_number_join_time_in_reports], time_format))
+						times.add(datetime.strptime(row[column_number_leave_time_in_reports], time_format))
+						if row[column_number_role_in_reports] != organizer_role:
+							participants.add(name)
 		if awaiting_headers:
 			raise UserError ('The number of data columns is apparently ' + len(row) + '. I expected ' + number_of_columns_in_reports + '.')
 		if len(participants) == 0:
