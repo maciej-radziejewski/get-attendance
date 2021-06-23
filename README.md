@@ -101,7 +101,7 @@ for attendance lists to work, and
 
 for attendance reports to work.
 
-The other settings near those are 0-based columne numbers where the data can be found. You should not have to change those, unless Teams changes its behaviour.
+The other settings near those are 0-based column numbers where the data can be found. You should not have to change those, unless Teams changes its behaviour.
 
 #### 4. Create the schedule file.
 
