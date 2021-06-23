@@ -62,14 +62,14 @@ You probably got some error message, but we will deal with that in a moment. If 
 
 ## Setup
 
-1. Get as many attendance lists and reports as you can.
+### 1. Get as many attendance lists and reports as you can.
 
 You can download an attendance list during the meeting that you organized (click on the **...** icon on the list of participants, and then download). If you did not, you can probably still access the meeting chat (e.g., go to the chanel associated with the meeting or re-open a scheduled meeting from the calendar). The meeting chat should contain the downloadable attendance report.
 
 All these lists and reports should go to your Downloads folder. They have names like 'meetingAttendanceList (9).csv' or 'meetingAttendanceReport(General) (4).csv'.
 Every attendance list should contain 'meetingAttendanceList' in the file name. Every attendance report should contain 'meetingAttendanceReport' in the file name.
 
-2. To make sure that the script finds your Downloads folder, you need to may need to edit the script in a text editor (Notepad in Windows).
+### 2. To make sure that the script finds your Downloads folder, you may need to edit the script in a text editor (Notepad in Windows).
 
 If you open the script in your editor, you should see a line
 
@@ -79,7 +79,7 @@ This should work on Unix and macOs systems, so, if you run the script, it should
 
     dir_downloads = 'C:/some/path'
 
-3. If your system language is other than Polish, you will need to modify the column headers that the script expects to find in your lists/reports.
+### 3. If your system language is other than Polish, you will need to modify the column headers that the script expects to find in your lists/reports.
 
 This is a sort of double check to make sure that we read correct data. If you get an error like:
 
@@ -103,7 +103,7 @@ for attendance reports to work.
 
 The other settings near those are 0-based columne numbers where the data can be found. You should not have to change those, unless Teams changes its behaviour.
 
-4. Create the schedule file.
+### 4. Create the schedule file.
 
 If the test run was not succesful, re-run the script until it finishes without errors. It should create a provisional schedule file for you, named **schedule.csv** (always in the current directory, whicj should be the same directory as the script). You should edit it with a text editor. It may look like this:
 
@@ -136,7 +136,7 @@ Note that:
 * the times in the provisional file are reasonable defaults, but you may need to correct them.
 * weekday names should be in the system default language, see below,
 
-5. Run the script again.
+### 5. Run the script again.
 
 It should process all the lists/reports that it can find in the Downloads directory, see the next section.
 
