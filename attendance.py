@@ -9,9 +9,7 @@ import datetime
 from datetime import datetime, date, timedelta, time
 
 import locale
-# this reads the environment and inits the right locale
-locale.setlocale(locale.LC_ALL, "")
-
+locale.setlocale(locale.LC_ALL, '') # Init the locale from the system settings
 
 # These parameters need to be adjusted to your system.
 
@@ -36,11 +34,13 @@ column_number_leave_time_in_reports = 2
 column_header_role = 'Rola' # In attendance reports
 column_number_role_in_reports = 5
 
+organizer_role_in_reports = 'Organizator'
+
 number_of_columns_in_reports = 6 # Number of columns in the main part of the attendance report, after the irregular header.
 
 time_format = '%d.%m.%Y, %H:%M:%S' # The way dates and times appear in Teams lists and reports.
 
-
+irregular_classes = False
 
 
 class UserError(Exception):
@@ -146,7 +146,12 @@ def get_attendance_list (source):
 					name = row[column_number_full_name_in_lists]
 					if organizer_count == 0:
 						organizer = name
-					times.add(datetime.strptime(row[column_number_time_mark_in_lists], time_format))
+					try:
+						times.add(datetime.strptime(row[column_number_time_mark_in_lists], time_format))
+					except ValueError:
+						# Apparently Teams sometimes randomly switches to the US time format even on non-US systems
+						locale.setlocale(locale.LC_TIME, 'en_US') # The locale change is local - will be reversed in a moment
+						times.add(datetime.strptime(row[column_number_time_mark_in_lists], '%m/%d/%Y, %H:%M:%S %p'))
 					if name == organizer:
 						organizer_count += 1
 					else:
@@ -155,11 +160,12 @@ def get_attendance_list (source):
 			raise UserError ('The meeting organizer should be the first participant listed in the file and should appear an odd number of times.')
 		if len(participants) == 0:
 			raise UserError ('The file is empty.')
-
+		locale.setlocale(locale.LC_ALL, '')
 		return (min(times), (max(times) - min(times)).seconds, participants)
 	except UserError as exc:
 		print ('Error reading ' + source + '.')
 		print (exc)
+		locale.setlocale(locale.LC_ALL, '')
 		return None
 
 def get_attendance_report (source):
@@ -192,23 +198,27 @@ def get_attendance_report (source):
 						if row[column_number_role_in_reports] != column_header_role:
 							raise UserError ('Column header ' + column_header_role + ' expected and ' + row[column_number_role_in_reports] + ' encountered.')
 					else:
-						if organizer_count == 0:
-							organizer_role = row[column_number_role_in_reports]
-							organizer_count += 1
 						name = row[column_number_full_name_in_reports]
-						times.add(datetime.strptime(row[column_number_join_time_in_reports], time_format))
-						times.add(datetime.strptime(row[column_number_leave_time_in_reports], time_format))
-						if row[column_number_role_in_reports] != organizer_role:
+						try:
+							times.add(datetime.strptime(row[column_number_join_time_in_reports], time_format))
+							times.add(datetime.strptime(row[column_number_leave_time_in_reports], time_format))
+						except ValueError:
+							# Apparently Teams sometimes randomly switches to the US time format even on non-US systems
+							locale.setlocale(locale.LC_TIME, 'en_US') # The locale change is local - will be reversed in a moment
+							times.add(datetime.strptime(row[column_number_join_time_in_reports], '%m/%d/%Y, %H:%M:%S %p'))
+							times.add(datetime.strptime(row[column_number_leave_time_in_reports], '%m/%d/%Y, %H:%M:%S %p'))
+						if row[column_number_role_in_reports] != organizer_role_in_reports:
 							participants.add(name)
 		if awaiting_headers:
 			raise UserError ('The number of data columns is apparently ' + len(row) + '. I expected ' + number_of_columns_in_reports + '.')
 		if len(participants) == 0:
 			raise UserError ('No entries found in the report.')
-
+		locale.setlocale(locale.LC_ALL, '')
 		return (min(times), (max(times) - min(times)).seconds, participants)
 	except UserError as exc:
 		print ('Error reading ' + source + '.')
 		print (exc)
+		locale.setlocale(locale.LC_ALL, '')
 		return None
 
 def get_all_attendance():
@@ -307,10 +317,14 @@ def distance_mod_week (delta):
 	minutes = delta/timedelta(minutes=1)
 	return abs((minutes+7*12*60) % (7*24*60) - 7*12*60)
 
-schedule = get_schedule('schedule.csv')
+if not irregular_classes:
+	schedule = get_schedule('schedule.csv')
 meetings = get_all_attendance()
 
-if schedule:
+if irregular_classes:
+	for t, duration, participants in meetings:
+		mark_attendance_on_list ('attendance.csv', str(t.date()) + t.strftime(' %H:%M'), participants)
+elif schedule:
 	for t, duration, participants in meetings:
 		slot = len(schedule)
 		distance = 24*60
@@ -323,6 +337,8 @@ if schedule:
 			print ('Classes not found on ' + str(t) + ' (' + t.strftime('%A') + ').')
 			if slot != len(schedule):
 				print ('The closest entry in the schedule is ' + str(distance) + ' minutes away: ' + schedule[slot][0] + ' ' + schedule[slot][2] + schedule[slot][3])
+			print ('You may need to edit the schedule to add a missing entry.')
+			print ('')
 		else:
 			mark_attendance_on_list (schedule[slot][2] + '.csv', str(t.date()) + schedule[slot][3], participants)
 else:
