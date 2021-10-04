@@ -4,7 +4,7 @@ This is a simple Python script for teachers using Microsoft Teams, to get readab
 
 Teams (e.g., version 1.4.00.7175) lets you download:
 * an attendance list, during the meeting that you organized (click on the **...** icon on the list of participants, and then download),
-* an attendance report, after the meeting (from the meeting chat, which is also available in the chanel associated with the meeting).
+* an attendance report, after the meeting (from the meeting chat, which is also available in the chanel associated with the meeting; it looks like attendance reports are only available for scheduled meetings).
 
 What this script can do for you is:
 * process a bunch of downloaded lists and reports in one go,
@@ -85,23 +85,21 @@ This is a sort of double check to make sure that we read correct data. If you ge
 
     Column header ... expected and ... encountered.
 
-you need to change some lines in the script file by putting the actual column headers between the quotes.  Specifically, you have to change:
+you need to change some lines in the script file by putting the actual column headers between the quotes. Specifically, you have to change the lines:
 
     column_header_full_name = 'Imię i nazwisko' # In attendance lists and reports
-    
-and also:
-
     column_header_time_mark = 'Znacznik czasu' # In attendance lists
-    
-for attendance lists to work, and
-
     column_header_join_time = 'Godzina dołączenia' # In attendance reports
     column_header_leave_time = 'Godzina opuszczenia' # In attendance reports
     column_header_role = 'Rola' # In attendance reports
 
-for attendance reports to work.
+Please, open the attendance lists/reports with a text editor to see exactly, what headers were used by your version of Teams. The other settings near those are 0-based column numbers where the data can be found. You should not have to change those, unless Teams changes its behaviour.
 
-The other settings near those are 0-based column numbers where the data can be found. You should not have to change those, unless Teams changes its behaviour.
+Attendance reports should identify you explicitly as the meeting organizer. For example, in Polish you would be called "Organizator". As a final step to adapt the script to your language, please change the line
+
+    organizer_role_in_reports = 'Organizator'
+
+to what Teams used in your files. This way your name will be correctly skipped from the generated files.
 
 #### 4. Create the schedule file.
 
@@ -151,3 +149,20 @@ Each meeting should be matched to the closest entry in the schedule, on the basi
 ## When the semester is over
 
 When the term is over and the new one starts, you can create a new, empty directory for your new attendance sheets, and move the script file with your settings. You will have to re-do the steps 1, 4 and 5 to get the new schedule.
+
+## What if your classes are irregular?
+
+The script will work with a semi-regular schedule, because you can enter multiple day/time slots for each class. However, if these are too irregular, or you happen to have different classes at the same slot, you need a different solution. The solution is to change the line
+
+    irregular_classes = False
+
+to
+
+    irregular_classes = True
+
+in the script and then:
+* prepare separate directories for separate classes,
+* copy the script file to each of them and do not trouble yourself with the schedule,
+* run the script from the appropriate directory after the class, and then remove the downloaded attendance list/report (or move it to some per class archive).
+
+The 'irregular_classes' settings makes all the attendance data go to one file 'attendance.csv', so you need to make sure yourself not to mix-up the lists for different classes.
