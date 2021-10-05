@@ -4,7 +4,8 @@ This is a simple Python script for teachers using Microsoft Teams, to get readab
 
 Teams (e.g., version 1.4.00.7175) lets you download:
 * an attendance list, during the meeting that you organized (click on the **...** icon on the list of participants, and then download),
-* an attendance report, after the meeting (from the meeting chat, which is also available in the chanel associated with the meeting, see [here](https://support.office.com/article/download-attendance-reports-in-teams-ae7cf170-530c-47d3-84c1-3aedac74d310))
+* an attendance report, after the meeting (from the meeting chat, which is also available in the chanel associated with the meeting, see [here](https://support.office.com/article/download-attendance-reports-in-teams-ae7cf170-530c-47d3-84c1-3aedac74d310)).
+
 Availability of these options may depend on Teams configuration in your institution, and other factors, like if the meeting was scheduled, in a channel, etc.
 
 What this script can do for you is:
