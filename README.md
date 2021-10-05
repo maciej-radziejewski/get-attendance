@@ -165,6 +165,6 @@ to
 in the script and then:
 * prepare separate directories for separate classes,
 * copy the script file to each of them and do not trouble yourself with the schedule,
-* run the script from the appropriate directory after the class, and then remove the downloaded attendance list/report (or move it to some per class archive).
+* run the script from the appropriate class directory, after making sure that the only attendance lists and reports in your Downloads directory are those for this particular class.
 
-The 'irregular_classes' settings makes all the attendance data go to one file 'attendance.csv', so you need to make sure yourself not to mix-up the lists for different classes.
+The 'irregular_classes' settings makes all the attendance data go to one file 'attendance.csv', so you need to make sure yourself not to mix-up the lists for different classes. You may consider archiving them after each script run.
