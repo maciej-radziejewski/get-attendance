@@ -11,7 +11,7 @@ What this script can do for you is:
 * automatically match the data therin to various classes in your weekly schedule,
 * lay this data out nicely in separate CSV files (viewable in any spreadsheet app), one sheet per class.
 
-Suppose you teach Linear algebra (two groups of students) and Topology (one group). Your schedule might looke like this (class start times are given):
+Suppose you teach Linear algebra (two groups of students) and Topology (one group). Your schedule might look like this (class start times are given):
 
     Wednesday, 9:00, Linear algebra group 1
     Wednesday, 11:00, Linear algebra group 2
