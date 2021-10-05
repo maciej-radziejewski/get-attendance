@@ -4,7 +4,8 @@ This is a simple Python script for teachers using Microsoft Teams, to get readab
 
 Teams (e.g., version 1.4.00.7175) lets you download:
 * an attendance list, during the meeting that you organized (click on the **...** icon on the list of participants, and then download),
-* an attendance report, after the meeting (from the meeting chat, which is also available in the chanel associated with the meeting; it looks like attendance reports are only available for scheduled meetings).
+* an attendance report, after the meeting (from the meeting chat, which is also available in the chanel associated with the meeting, see [here](https://support.office.com/article/download-attendance-reports-in-teams-ae7cf170-530c-47d3-84c1-3aedac74d310))
+Availability of these options may depend on Teams configuration in your institution, and other factors, like if the meeting was scheduled, in a channel, etc.
 
 What this script can do for you is:
 * process a bunch of downloaded lists and reports in one go,
@@ -64,9 +65,9 @@ You probably got some error message, but we will deal with that in a moment. If 
 
 #### 1. Get as many attendance lists and reports as you can.
 
-You can download an attendance list during the meeting that you organized (click on the **...** icon on the list of participants, and then download). If you did not, you can probably still access the meeting chat (e.g., go to the chanel associated with the meeting or re-open a scheduled meeting from the calendar). The meeting chat should contain the downloadable attendance report.
+You can download an attendance list during the meeting that you organized (click on the **...** icon on the list of participants, and then download). If you did not, you may still be able to access the meeting chat (e.g., go to the chanel associated with the meeting or re-open a scheduled meeting from the calendar) and a downloadable attendance report inside the meeting chat.
 
-All these lists and reports should go to your Downloads folder. They have names like 'meetingAttendanceList (9).csv' or 'meetingAttendanceReport(General) (4).csv'.
+All these lists and reports should automatically go to your Downloads folder. They have names like 'meetingAttendanceList (9).csv' or 'meetingAttendanceReport(General) (4).csv'.
 Every attendance list should contain 'meetingAttendanceList' in the file name. Every attendance report should contain 'meetingAttendanceReport' in the file name.
 
 #### 2. To make sure that the script finds your Downloads folder, you may need to edit the script in a text editor (Notepad in Windows).
@@ -103,7 +104,7 @@ to what Teams used in your files. This way your name will be correctly skipped f
 
 #### 4. Create the schedule file.
 
-If the test run was not succesful, re-run the script until it finishes without errors. It should create a provisional schedule file for you, named **schedule.csv** (always in the current directory, whicj should be the same directory as the script). You should edit it with a text editor. It may look like this:
+If the test run was not succesful, re-run the script until it finishes without errors. It should create a provisional schedule file for you, named **schedule.csv** (always in the current directory, which should be the same directory as the script). You should edit it with a text editor. It may look like this:
 
     Wednesday, 9:00, class1
     Wednesday, 11:00, class2
@@ -115,7 +116,7 @@ assuming your actual schedule is like the one at the top, and you had attendance
 * give descriptive names to the groups, reflecting which items in the schedule refer to distinct groups, and
 * add the missing items.
 
-You should get something like the schedule at the top:
+After you edit the schedule, it may look like this:
 
     Wednesday, 9:00, Linear algebra group 1
     Wednesday, 11:00, Linear algebra group 2
@@ -132,7 +133,7 @@ Note that:
 * the same group can have multiple meetings on the same day or different days,
 * you need to use the 24-hour format for times,
 * the times in the provisional file are reasonable defaults, but you may need to correct them.
-* weekday names should be in the system default language, see below,
+* weekday names in the provisional schedule should hopefully be in your system language. If they are, keep it so!
 
 #### 5. Run the script again.
 
