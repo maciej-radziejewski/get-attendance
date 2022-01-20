@@ -36,9 +36,10 @@ column_number_role_in_reports = 5
 
 organizer_role_in_reports = 'Organizator'
 
-number_of_columns_in_reports = 6 # Number of columns in the main part of the attendance report, after the irregular header.
+number_of_columns_in_reports = 7 # Number of columns in the main part of the attendance report, after the irregular header.
 
 time_format = '%d.%m.%Y, %H:%M:%S' # The way dates and times appear in Teams lists and reports.
+
 
 irregular_classes = False
 
@@ -151,7 +152,7 @@ def get_attendance_list (source):
 					except ValueError:
 						# Apparently Teams sometimes randomly switches to the US time format even on non-US systems
 						locale.setlocale(locale.LC_TIME, 'en_US') # The locale change is local - will be reversed in a moment
-						times.add(datetime.strptime(row[column_number_time_mark_in_lists], '%m/%d/%Y, %H:%M:%S %p'))
+						times.add(datetime.strptime(row[column_number_time_mark_in_lists], '%m/%d/%Y, %I:%M:%S %p'))
 					if name == organizer:
 						organizer_count += 1
 					else:
@@ -205,12 +206,12 @@ def get_attendance_report (source):
 						except ValueError:
 							# Apparently Teams sometimes randomly switches to the US time format even on non-US systems
 							locale.setlocale(locale.LC_TIME, 'en_US') # The locale change is local - will be reversed in a moment
-							times.add(datetime.strptime(row[column_number_join_time_in_reports], '%m/%d/%Y, %H:%M:%S %p'))
-							times.add(datetime.strptime(row[column_number_leave_time_in_reports], '%m/%d/%Y, %H:%M:%S %p'))
+							times.add(datetime.strptime(row[column_number_join_time_in_reports], '%m/%d/%Y, %I:%M:%S %p'))
+							times.add(datetime.strptime(row[column_number_leave_time_in_reports], '%m/%d/%Y, %I:%M:%S %p'))
 						if row[column_number_role_in_reports] != organizer_role_in_reports:
 							participants.add(name)
 		if awaiting_headers:
-			raise UserError ('The number of data columns is apparently ' + len(row) + '. I expected ' + number_of_columns_in_reports + '.')
+			raise UserError ('The number of data columns is apparently ' + str(len(row)) + '. I expected ' + str(number_of_columns_in_reports) + '.')
 		if len(participants) == 0:
 			raise UserError ('No entries found in the report.')
 		locale.setlocale(locale.LC_ALL, '')
