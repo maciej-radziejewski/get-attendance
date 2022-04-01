@@ -168,3 +168,11 @@ in the script and then:
 * run the script from the appropriate class directory, after making sure that the only attendance lists and reports in your Downloads directory are those for this particular class.
 
 The 'irregular_classes' settings makes all the attendance data go to one file 'attendance.csv', so you need to make sure yourself not to mix-up the lists for different classes. You may consider archiving them after each script run.
+
+## If Excel has trouble opening your attendance lists
+
+In some European countries Excel inststs on using semicolons to separate columns in a CSV file. If you encounter this problem, you may need to add (uncomment) the line
+
+    selected_dialect = excel_semicolon
+
+close to the beginning of the script file. In that case attendance files created previously should get automatically converted upon update. I expect to make this setting work for the schedule file in the future.
