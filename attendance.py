@@ -8,8 +8,16 @@ import csv
 import datetime
 from datetime import datetime, date, timedelta, time
 
+class excel_semicolon(csv.excel):
+  delimiter = ';'
+
 import locale
 locale.setlocale(locale.LC_ALL, '') # Init the locale from the system settings
+
+selected_dialect = csv.excel # Default in many countries
+
+# If you do use Excel to view and edit CSV files, and you live in Europe, Excel may not read CSV files properly, because it expects them to be semicolon-delimited. If you uncomment the following line, your attendance lists will become semicolon-separated:
+# selected_dialect = excel_semicolon
 
 # These parameters need to be adjusted to your system.
 
@@ -247,23 +255,13 @@ def get_all_attendance():
 		print ('Present setting: ' + dir_downloads)
 		exit()
 
-def mark_attendance_on_list (fname, column_name, participants):
-	'''Marks the attendance of a given set of participants on a list in a CSV file.
-	If the file does not exist yet, an empty file is created.
-	Participants not in the set are marked as absent.
-	Participants not previously on the list are added to the list,
-	marked as absent on previous meetings.
-	Participation is marked under a given column heading (date or date+time).
-	If such a column already exists in the list file, the set of present
-	participants is merged with those previously marked as present.
-	'''
+def read_list (fname, dialect):
 	rows = []
 	name_ind = {}
 	col_ind = {}
-	print ('Updating the file ' + fname + ', column ' + column_name + '.')
 	try:
-		with open(fname, newline='') as csvfile:
-			reader = csv.reader(csvfile)
+		with open(fname, newline='', encoding='utf-8-sig') as csvfile:
+			reader = csv.reader(csvfile, dialect=dialect)
 			for n,row in enumerate(reader):
 				if n == 0:
 					for k,entry in enumerate(row):
@@ -277,11 +275,41 @@ def mark_attendance_on_list (fname, column_name, participants):
 				else:
 					name_ind[row[0]] = len(rows)
 					rows.append(row)
+		return rows, name_ind, col_ind
 	except FileNotFoundError:
+		print ('File not found: ' + fname)
+		return [], {}, {}
+	except Exception:
+		print ('Unexpected error reading the file: ' + fname)
+		return [], {}, {}
+
+def mark_attendance_on_list (fname, column_name, participants):
+	'''Marks the attendance of a given set of participants on a list in a CSV file.
+	If the file does not exist yet, an empty file is created.
+	Participants not in the set are marked as absent.
+	Participants not previously on the list are added to the list,
+	marked as absent on previous meetings.
+	Participation is marked under a given column heading (date or date+time).
+	If such a column already exists in the list file, the set of present
+	participants is merged with those previously marked as present.
+	'''
+	print ('Updating the file ' + fname + ', column ' + column_name + '.')
+
+	rows, name_ind, col_ind = read_list (fname, selected_dialect)
+	if (selected_dialect == excel_semicolon) and (len(rows[0]) == 1) and (',' in rows[0][0]):
+		print ('It looks like the file was comma-separated: ' + fname)
+		print ('I am converting it to semicolon-separated, per your config setting.')
+		rows, name_ind, col_ind = read_list (fname, csv.excel)
+	elif (selected_dialect == csv.excel) and (len(rows[0]) == 1) and (';' in rows[0][0]):
+		print ('It looks like the file was semicolon-separated: ' + fname)
+		print ('I am converting it to comma-separated, per your config setting.')
+		rows, name_ind, col_ind = read_list (fname, excel_semicolon)
+
+	if len(rows) == 0:
 		rows = [[column_header_full_name]]
 		name_ind = {}
 		col_ind = {}
-		print ('Creating a new, empty list: ' + fname)
+		print ('Creating an attendance list from scratch: ' + fname)
 
 	try:
 		need_to_sort = False # Only sort the rows if new participants were added.
@@ -306,8 +334,8 @@ def mark_attendance_on_list (fname, column_name, participants):
 		if need_to_sort:
 			rows[1:len(rows)] = sorted(rows[1:len(rows)], key=lambda row: locale.strxfrm(row[0]))
 
-		with open(fname, 'w', newline='') as csvfile:
-			writer = csv.writer(csvfile)
+		with open(fname, 'w', newline='', encoding='utf-8-sig') as csvfile:
+			writer = csv.writer(csvfile, dialect=selected_dialect)
 			for row in rows:
 				writer.writerow(row)
 	except Exception:
